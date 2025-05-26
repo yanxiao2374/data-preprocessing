@@ -29,7 +29,7 @@ def cut_images(size, input_dir, output_dir):
             for x in range(0, w_tiles * w_step, w_step):
                 tile = img[y:y + h_step, x:x + w_step]
                 tile = cv2.resize(tile, (1024, 1024))  # 保持输出大小为1024x1024
-                save_name = os.path.join(output_dir, f"heading_{str(count).zfill(3)}.png")
+                save_name = os.path.join(output_dir, f"douth_{str(count).zfill(3)}.png")
                 cv2.imwrite(save_name, tile)
                 count += 1
 
