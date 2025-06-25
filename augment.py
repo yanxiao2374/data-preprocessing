@@ -232,35 +232,35 @@ class YOLOAugmentor:
         filename = os.path.splitext(os.path.basename(image_path))[0]
         ext = os.path.splitext(image_path)[1]
 
-        # # 1. 水平翻转
-        # h_flipped, h_annotations = self.horizontal_flip(image, annotations)
-        # cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_hflip{ext}"), h_flipped)
-        # self.save_yolo_annotation(os.path.join(self.output_dir, 'labels', 'train', f"{filename}_hflip.txt"), h_annotations)
-        #
-        # # 2. 垂直翻转
-        # v_flipped, v_annotations = self.vertical_flip(image, annotations)
-        # cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_vflip{ext}"), v_flipped)
-        # self.save_yolo_annotation(os.path.join(self.output_dir, 'labels', 'train', f"{filename}_vflip.txt"), v_annotations)
+        # 1. 水平翻转
+        h_flipped, h_annotations = self.horizontal_flip(image, annotations)
+        cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_hflip{ext}"), h_flipped)
+        self.save_yolo_annotation(os.path.join(self.output_dir, 'labels', 'train', f"{filename}_hflip.txt"), h_annotations)
+
+        # 2. 垂直翻转
+        v_flipped, v_annotations = self.vertical_flip(image, annotations)
+        cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_vflip{ext}"), v_flipped)
+        self.save_yolo_annotation(os.path.join(self.output_dir, 'labels', 'train', f"{filename}_vflip.txt"), v_annotations)
 
         # 3. 多角度旋转
         for angle in [90, 180, 270]:
             rotated, rotated_annotations = self.rotate_image(image, angle, annotations)
-            # cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_rotate{angle}{ext}"), rotated)
+            cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_rotate{angle}{ext}"), rotated)
             self.save_yolo_annotation(os.path.join(self.output_dir, 'labels', 'train', f"{filename}_rotate{angle}.txt"),
                                       rotated_annotations)
 
-        # # 4. 对比度调整
-        # for factor in [0.5, 1.5]:  # 减弱和增强
-        #     contrasted = self.adjust_contrast(image, factor)
-        #     cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_contrast{factor}{ext}"), contrasted)
-        #     # 对比度调整不影响标注
-        #     shutil.copy(label_path, os.path.join(self.output_dir, 'labels', 'train', f"{filename}_contrast{factor}.txt"))
-        #
-        # # 5. 高斯模糊
-        # blurred = self.apply_gaussian_blur(image)
-        # cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_blurred{ext}"), blurred)
-        # # 高斯模糊不影响标注
-        # shutil.copy(label_path, os.path.join(self.output_dir, 'labels', 'train', f"{filename}_blurred.txt"))
+        # 4. 对比度调整
+        for factor in [0.5, 1.5]:  # 减弱和增强
+            contrasted = self.adjust_contrast(image, factor)
+            cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_contrast{factor}{ext}"), contrasted)
+            # 对比度调整不影响标注
+            shutil.copy(label_path, os.path.join(self.output_dir, 'labels', 'train', f"{filename}_contrast{factor}.txt"))
+
+        # 5. 高斯模糊
+        blurred = self.apply_gaussian_blur(image)
+        cv2.imwrite(os.path.join(self.output_dir, 'images', 'train', f"{filename}_blurred{ext}"), blurred)
+        # 高斯模糊不影响标注
+        shutil.copy(label_path, os.path.join(self.output_dir, 'labels', 'train', f"{filename}_blurred.txt"))
 
     def augment_all(self):
         """
@@ -283,8 +283,8 @@ class YOLOAugmentor:
 
 if __name__ == "__main__":
     # 使用示例
-    input_directory = r"D:\OneDrive\Data\Datasets\dough"  # 包含images和labels子目录
-    output_directory = r"E:\wheat_head\Datasets_augmented\dough"
+    input_directory = r"D:\OneDrive\Data\Datasets\heading"  # 包含images和labels子目录
+    output_directory = r"E:\wheat_head\Datasets_augmented\heading"
 
     augmentor = YOLOAugmentor(input_directory, output_directory)
     augmentor.augment_all()
